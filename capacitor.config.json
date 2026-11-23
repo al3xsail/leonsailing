@@ -1,0 +1,6 @@
+{
+  "appId": "es.al3x.leonsailing",
+  "appName": "Táctica LEON",
+  "webDir": "www",
+  "android": { "allowMixedContent": true }
+}

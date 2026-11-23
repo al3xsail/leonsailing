@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Táctica LEON</string>
+    <string name="title_activity_main">Táctica LEON</string>
+    <string name="package_name">es.al3x.leonsailing</string>
+    <string name="custom_url_scheme">es.al3x.leonsailing</string>
+</resources>
