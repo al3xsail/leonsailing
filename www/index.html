@@ -18,29 +18,30 @@
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Barlow,system-ui,sans-serif;overflow-x:clip}
 .n{font-family:"Barlow Condensed",Barlow,sans-serif;font-variant-numeric:tabular-nums}
-header{display:flex;align-items:center;gap:10px;padding:10px max(3vw,12px);border-bottom:1px solid var(--line);flex-wrap:wrap}
-header .logo{width:40px;height:40px;flex:none}
+html,body{height:100%}body{display:flex;flex-direction:column;height:100dvh}
+header{display:flex;align-items:center;gap:8px;padding:4px 10px;border-bottom:1px solid var(--line);flex:none;min-height:48px}
+header .logo{width:34px;height:34px;flex:none}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) header .logo{filter:invert(1)}}:root[data-theme=dark] header .logo{filter:invert(1)}
-header h1{font:700 22px/1 "Barlow Condensed",sans-serif;margin:0}
-header .src{color:var(--mut);font-size:14px;margin-inline-start:auto}
+header h1{font:700 22px/1 "Barlow Condensed",sans-serif;margin:0;white-space:nowrap}
+header .src{color:var(--mut);font-size:13px;white-space:nowrap}
 header .src.simu{color:#fff;background:var(--bab);padding:3px 10px;border-radius:99px;font-weight:600}
-nav{display:flex;gap:4px;padding:6px max(3vw,12px);overflow-x:auto;border-bottom:1px solid var(--line)}
-nav button{flex:none}
+nav{display:flex;gap:4px;overflow-x:auto;margin-inline-start:auto;flex:0 1 auto}
+nav button{flex:none;min-height:40px;padding:0 12px}
 button,select,input{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:0 14px}
 button{cursor:pointer;font-weight:600}button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2b7bd6;outline-offset:2px}
-main{max-width:1100px;margin:0 auto;padding:12px max(3vw,12px) 40px}
+main{flex:1;min-height:0;overflow:auto;width:100%;max-width:1600px;margin:0 auto;padding:8px 10px 12px}
 .view{display:none}.view.on{display:block}
-#adv{border-radius:16px;padding:16px 18px;color:#fff;background:#3a4650;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;transition:background .4s}
+#adv{border-radius:14px;padding:8px 14px;color:#fff;background:#3a4650;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;transition:background .4s}
 #adv.bab{background:var(--bab)}#adv.est{background:var(--est)}#adv.hold{background:light-dark(#24313b,#1b2730)}
-#adv b{font:700 clamp(40px,11vw,72px)/1 "Barlow Condensed",sans-serif}
-#adv .why{grid-column:1/-1;font-size:17px;opacity:.95}
+#adv b{font:700 clamp(30px,10vh,72px)/1 "Barlow Condensed",sans-serif}
+#adv .why{grid-column:1/-1;font-size:clamp(14px,3.6vh,18px);line-height:1.25;opacity:.95}
 #adv .gain{font:700 28px/1 "Barlow Condensed",sans-serif;text-align:end}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
-.t{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 12px}
-.t small{display:block;color:var(--mut);font-size:14px}
-.t .v{display:block;font:700 clamp(34px,8vw,46px)/1.05 "Barlow Condensed",sans-serif}
-.t .s{color:var(--mut);font-size:14px}
+.t{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 9px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.t small{display:block;color:var(--mut);font-size:12px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t .v{display:block;font:700 var(--tv,40px)/1.02 "Barlow Condensed",sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t .s{color:var(--mut);font-size:12px;line-height:1.2;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bab-t{color:var(--bab)}.est-t{color:var(--est)}
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:10px;margin-top:10px}
 @media(max-width:760px){.two{grid-template-columns:minmax(0,1fr)}}
@@ -70,63 +71,64 @@ label.ck input{min-height:auto;width:22px;height:22px}
 .miss{color:var(--bab);font-weight:600}
 .spin{display:inline-block;width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--ink);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-3px}
 @keyframes sp{to{transform:rotate(360deg)}}
-@media(min-width:900px) and (orientation:landscape){
- #v-regata.on{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 12px;align-items:start}
- #v-regata>#adv,#v-regata>.grid{grid-column:1}#v-regata>.grid{grid-template-columns:repeat(3,minmax(0,1fr))}
- #v-regata>.two{grid-column:2;grid-row:1/span 3;margin-top:0;grid-template-columns:minmax(0,1fr)}
- #v-regata>.two>.fig{min-height:58vh;order:-1}#v-regata>#simCtl{grid-column:1}
- main{max-width:1500px}}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--mut);margin-inline-end:6px}.dot.ok{background:var(--est)}.dot.ko{background:var(--bab)}
 textarea{width:100%;min-height:90px;font:14px/1.4 ui-monospace,monospace;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px}
+/* Regata en apaisado: izquierda aviso y datos, derecha carta */
+#v-regata.on{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:8px;height:100%}
+.lcol,.rcol{display:flex;flex-direction:column;gap:6px;min-height:0}
+#tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:6px;flex:1;min-height:0;margin:0}
+.sails{display:flex;gap:6px 14px;align-items:baseline;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 10px}
+.sails{flex-wrap:nowrap;overflow:hidden;white-space:nowrap}.sails>*{flex:none}.sails .note{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}.sails b{font:700 clamp(18px,5vh,30px)/1.1 "Barlow Condensed",sans-serif}.sails .note{margin:0}
+.rcol .fig{flex:1;min-height:0}
+.tb{position:absolute;top:6px;right:6px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100% - 120px)}
+.tb #simCtl{display:contents}.tb button,.tb select{min-height:34px;font-size:13px;padding:0 9px;background:color-mix(in srgb,var(--card) 90%,transparent)}
+.tb label.ck{min-height:34px;font-size:13px;background:color-mix(in srgb,var(--card) 90%,transparent);border-radius:10px;padding:0 8px}.tb label.ck input{width:18px;height:18px}
+#fleetMini{position:absolute;left:8px;right:8px;bottom:28px;font-size:13px;display:flex;flex-direction:column;gap:2px;pointer-events:none}
+#fleetMini span{background:color-mix(in srgb,var(--card) 85%,transparent);border-radius:8px;padding:2px 8px;width:max-content;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.editing .t{outline:2px dashed var(--mut);outline-offset:-3px}
+.t .tools{position:absolute;inset:0;display:none;gap:4px;padding:4px;background:var(--card);align-items:center;flex-wrap:wrap;align-content:center}.editing .t .tools{display:flex}.t .tools select{flex:1 1 60px;min-width:0}
+.t .tools select,.t .tools button{min-height:34px;font-size:14px;padding:0 8px}
+.addT{display:none;align-items:center;justify-content:center;border:2px dashed var(--line);border-radius:12px;background:none;font-size:16px}.editing .addT{display:flex}
+#v-salida.on{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 16px;align-content:start}
+#v-salida .sl{grid-column:1}#v-salida .sr{grid-column:2;grid-row:1/span 9}
+#clock{font-size:clamp(64px,30vh,230px)!important}
+#v-salida .big{min-height:46px;font-size:17px}#v-salida .row{margin:5px 0}
+.chips{display:flex;flex-wrap:wrap;gap:4px}.chips button{min-height:34px;font-size:13px;padding:0 8px}
+.rank{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.rank ol{margin:0;padding-inline-start:20px}.rank li{padding:4px 0;border-bottom:1px solid var(--line)}
+.rank li small{display:block;color:var(--mut)}
+@media(orientation:portrait){#v-regata.on,#v-salida.on{display:block;height:auto}#tiles{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}.rcol .fig{min-height:330px}.rank{grid-template-columns:minmax(0,1fr)}header{flex-wrap:wrap}nav{width:100%;margin:0}}
 @media(prefers-reduced-motion:reduce){.spin{animation:none}}
 @media(prefers-reduced-motion:reduce){#adv{transition:none}}
 </style>
 </head>
 <body>
-<header><img class="logo" src="data:image/png;base64,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" alt="Logo del LEON" width="40" height="40"><h1>LEON · ESP‑1222</h1><span class="pill" id="legPill">—</span><span class="n" id="tmini"></span><span class="src" id="srcLbl">Simulador</span></header>
-<nav id="tabs">
- <button data-v="salida">Salida</button><button class="on" data-v="regata">Regata</button><button data-v="recorrido">Recorrido</button><button data-v="polar">Polar y velas</button><button data-v="datos">Datos</button>
-</nav>
+<header><img class="logo" src="data:image/png;base64,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" alt="Logo del LEON" width="40" height="40"><h1>LEON</h1><span class="pill" id="legPill">—</span><span class="n" id="tmini"></span><span class="src" id="srcLbl">Simulador</span><nav id="tabs"><button data-v="salida">Salida</button><button class="on" data-v="regata">Regata</button><button data-v="recorrido">Recorrido</button><button data-v="polar">Polar</button><button data-v="flota">Flota</button><button data-v="datos">Datos</button></nav></header>
 <main>
 <section class="view" id="v-salida">
- <div class="seq" id="seq"><span data-m="5">5′ Atención</span><span data-m="4">4′ Preparación</span><span data-m="1">1′</span><span data-m="0">Salida</span></div>
+ <div class="sl"><div class="seq" id="seq"><span data-m="5">5′ Atención</span><span data-m="4">4′ Preparación</span><span data-m="1">1′</span><span data-m="0">Salida</span></div>
  <div id="clock" class="n">5:00</div>
  <div class="row"><button class="big on" id="tStart">Iniciar 5 min</button><button class="big" id="tSync">Sincronizar al minuto</button></div>
  <div class="row"><button id="t3">Iniciar 3 min</button><button id="tPlus">+1 min</button><button id="tMinus">−1 min</button><button id="tStop">Parar</button>
- <label class="ck"><input type="checkbox" id="tVoice" checked> Avisos por voz</label></div>
- <div class="grid">
+ <label class="ck"><input type="checkbox" id="tVoice" checked> Avisos por voz</label></div></div>
+ <div class="sr"><div class="grid" style="margin-top:0">
   <div class="t"><small>Distancia a la línea</small><span class="v n" id="lDist">–</span><span class="s" id="lSide"></span></div>
   <div class="t"><small>Tiempo a la línea</small><span class="v n" id="lTtl">–</span><span class="s" id="lBurn"></span></div>
   <div class="t"><small>Extremo favorecido</small><span class="v n" id="lFav">–</span><span class="s n" id="lBias"></span></div>
  </div>
  <div class="row"><button id="setCom">Fijar barco comité aquí</button><button id="setPin">Fijar boya (pin) aquí</button></div>
- <p class="note" id="lineMsg">Pasa junto a cada extremo de la línea y pulsa su botón, o cárgalos desde las instrucciones de regata. El tiempo a la línea usa tu velocidad actual hacia ella.</p>
+ <p class="note" id="lineMsg">Pasa junto a cada extremo de la línea y pulsa su botón, o cárgalos desde las instrucciones de regata. El tiempo a la línea usa tu velocidad actual hacia ella.</p></div>
 </section>
 
 <section class="view on" id="v-regata">
- <div id="adv" class="hold"><b id="advT">—</b><span class="gain n" id="advG"></span><span class="why" id="advW">Esperando datos…</span></div>
- <div class="grid">
-  <div class="t"><small>Velocidad / objetivo</small><span class="v n" id="dBsp">–</span><span class="s n" id="dTgt"></span></div>
-  <div class="t"><small>% de polar</small><span class="v n" id="dPct">–</span><span class="s" id="dPctS"></span></div>
-  <div class="t"><small>Viento real</small><span class="v n" id="dTws">–</span><span class="s n" id="dTwa"></span></div>
-  <div class="t"><small>Dirección del viento</small><span class="v n" id="dTwd">–</span><span class="s n" id="dShift"></span></div>
-  <div class="t"><small>VMG / óptimo</small><span class="v n" id="dVmg">–</span><span class="s n" id="dVmgT"></span></div>
-  <div class="t"><small>Baliza</small><span class="v n" id="dDist">–</span><span class="s n" id="dBrg"></span></div>
+ <div class="lcol">
+  <div id="adv" class="hold"><b id="advT">—</b><span class="gain n" id="advG"></span><span class="why" id="advW">Esperando datos…</span></div>
+  <div class="grid" id="tiles"></div>
+  <div class="sails"><span>Vela ahora</span><b id="sNow">–</b><span id="sNextL">Siguiente</span><b id="sNext">–</b><span class="note" id="sNote"></span></div>
  </div>
- <div class="two">
-  <div class="t"><small>Velas</small>
-   <div class="sail"><span>Ahora</span><span class="v n" id="sNow">–</span></div>
-   <div class="sail"><span id="sNextL">Siguiente tramo</span><span class="v n" id="sNext">–</span></div>
-   <p class="note" id="sNote"></p>
-   <div class="sail"><span>Corriente</span><span class="n" id="dCur">–</span></div>
-  </div>
-  <div class="fig" id="mapBox"><canvas id="map"></canvas></div>
- </div>
- <div class="row" id="simCtl">
-  <button id="bTack">Virar / trasluchar (sim)</button>
-  <label class="ck"><input type="checkbox" id="obey" checked> El simulador sigue los avisos</label>
-  <select id="simSpd"><option value="1">×1</option><option value="5" selected>×5</option><option value="20">×20</option></select>
-  <button id="bPause">Pausa</button>
+ <div class="rcol">
+  <div class="fig" id="mapBox"><canvas id="map"></canvas><div id="fleetMini"></div>
+   <div class="tb"><button id="editT">Editar datos</button><span id="simCtl"><button id="bTack">Virar (sim)</button><select id="simSpd" aria-label="Velocidad del simulador"><option value="1">×1</option><option value="5" selected>×5</option><option value="20">×20</option></select><button id="bPause">Pausa</button><label class="ck"><input type="checkbox" id="obey" checked> Sigue avisos</label></span></div></div>
  </div>
 </section>
 
@@ -157,6 +159,21 @@ textarea{width:100%;min-height:90px;font:14px/1.4 ui-monospace,monospace;color:v
  <div class="row"><button id="sailSave">Guardar tabla de velas</button><span class="note" id="sailMsg"></span></div>
 </section>
 
+<section class="view" id="v-flota">
+ <h2>Flota por AIS</h2>
+ <p class="note" id="fleetNote">Barcos con AIS a menos de 6 mn, ordenados por distancia que les falta a la baliza activa (en ceñida y popa, medida sobre el eje del viento). El tiempo es a tu VMG objetivo.</p>
+ <div class="rank"><div><h3>A quién seguimos (delante)</h3><ol id="fAhead"></ol></div><div><h3>Quién nos sigue (detrás)</h3><ol id="fBehind"></ol></div></div>
+ <h2>ORC: ¿damos o nos dan tiempo?</h2>
+ <div class="row"><label>Puntuación <select id="oOpt"><option value="AP">Todo terreno (APH)</option><option value="WL">Barlovento/sotavento</option><option value="CO">Costera/larga distancia</option></select></label>
+ <label>Sistema <select id="oSys"><option value="ToT">Tiempo sobre tiempo</option><option value="ToD">Tiempo sobre distancia</option></select></label>
+ <label>Distancia (mn) <input id="oDist" type="number" step="0.1" style="width:90px"></label><label>Duración (h) <input id="oHrs" type="number" step="0.1" style="width:90px"></label></div>
+ <p class="note" id="oNote"></p>
+ <div class="scroll"><table><thead><tr><th>Barco</th><th>Vela</th><th>AIS</th><th>ToD</th><th>ToT</th><th>Resultado</th><th></th></tr></thead><tbody id="oBody"></tbody></table></div>
+ <div class="row"><input id="oQ" placeholder="Nombre o número de vela" style="flex:1 1 200px"><button id="oFind">Buscar en ORC</button><button id="oAdd">Añadir a mano</button><span class="note" id="oMsg"></span></div>
+ <details><summary>Ratings del LEON (certificado ORC Club 2026)</summary>
+ <div class="scroll"><table><thead><tr><th>Puntuación</th><th>ToD (s/mn)</th><th>ToT</th></tr></thead><tbody id="oOwn"></tbody></table></div></details>
+</section>
+
 <section class="view" id="v-datos">
  <h2>Fuente de datos</h2>
  <div class="row"><button id="srcSim" class="on">Simulador</button><button id="srcFile">Reproducir grabación NMEA</button><input type="file" id="fileIn" accept=".txt,.log,.nmea,text/plain" hidden></div>
@@ -166,6 +183,10 @@ textarea{width:100%;min-height:90px;font:14px/1.4 ui-monospace,monospace;color:v
  <div class="row"><label>Dirección <input id="lvHost" value="192.168.4.1" style="width:150px"></label><label>Puerto <input id="lvPort" type="number" value="60003" style="width:100px"></label>
  <select id="lvProto"><option value="tcp">TCP</option><option value="udp">UDP</option></select><button id="lvBtn">Conectar</button></div>
  <p><span class="dot" id="lvDot"></span><span id="lvMsg">Desconectado</span></p>
+ <h2>Frases NMEA recibidas</h2>
+ <p class="note">Toca un campo para ponerlo en la pantalla de Regata.</p>
+ <div id="nmeaList" class="note">Aún no ha llegado ninguna frase.</div>
+ <div class="row" id="nmAddRow" hidden><span id="nmSel" class="n"></span><input id="nmName" placeholder="Nombre en pantalla" style="width:170px"><input id="nmUnit" placeholder="Unidad" style="width:90px"><button id="nmAdd">Añadir a la pantalla</button></div>
  <h2>Sincronización entre dispositivos</h2>
  <p><span class="dot" id="syDot"></span><span id="syMsg">Solo en la app de Android.</span></p>
  <p class="note">Recorrido, línea de salida, tabla de velas, ajustes y cuenta atrás se comparten solos entre los móviles y tablets conectados a la WiFi del barco. La cuenta atrás va con la hora del GPS.</p>
@@ -230,7 +251,7 @@ function ingest(m){
  F.tws=ema(F.tws,tws,Math.min(1,dt/10));F.stw=ema(F.stw,m.stw,Math.min(1,dt/3));
  const cx=m.sog*Math.sin(m.cog*D2R)-m.stw*Math.sin(hdg*D2R), cy=m.sog*Math.cos(m.cog*D2R)-m.stw*Math.cos(hdg*D2R);
  S.cur=ema(S.cur,Math.hypot(cx,cy),dt/60);S.curDir=norm(Math.atan2(cx,cy)*R2D);
- S.pos=[m.lat,m.lon];S.hdg=hdg;S.sog=m.sog;S.cog=m.cog;S.twa=twa;S.t+=dt;
+ S.pos=[m.lat,m.lon];S.awa=m.awa;S.aws=m.aws;S.hdg=hdg;S.sog=m.sog;S.cog=m.cog;S.twa=twa;S.t+=dt;
  const tk=twa>=0?1:-1;if(S.tack&&tk!==S.tack&&Math.abs(twa)>15)S.lastTack=S.t;S.tack=tk;
  if(!S.track.length||rel(S.track[S.track.length-1],S.pos).d>0.01){S.track.push(S.pos);if(S.track.length>600)S.track.shift()}
  const mk=MARKS[active];if(mk&&mk.p){const r=rel(S.pos,mk.p);if(r.d*NM<50&&active<MARKS.length-1){active++;fillActive()}}
@@ -269,23 +290,63 @@ function decide(){
 /* ---------- Pintar ---------- */
 const fx=(v,d=1)=>v==null||isNaN(v)?'–':v.toFixed(d);
 function render(){
- if(!S.pos)return;const tws=F.tws, twa=S.twa, stw=F.stw, tgt=polar(tws,twa);
+ if(!S.pos)return;const tws=F.tws, twa=S.twa;
  $('adv').className=A.kind||'hold';$('advT').textContent=A.title||'—';$('advW').textContent=A.why||'';$('advG').textContent=A.gain||'';
- $('dBsp').textContent=fx(stw);$('dTgt').textContent=`objetivo ${fx(tgt)} kn`;
- const pct=stw/tgt*100;$('dPct').textContent=isFinite(pct)?pct.toFixed(0)+'%':'–';$('dPctS').textContent=pct<92?'Por debajo: revisa trimado o ángulo':pct>104?'Por encima de la polar':'En polar';
- $('dTws').textContent=fx(tws);$('dTwa').innerHTML=`TWA <span class="${twa>=0?'est-t':'bab-t'}">${Math.abs(twa).toFixed(0)}° ${twa>=0?'Er':'Br'}</span>`;
- const sh=Math.round(A.shift||0)||0;$('dTwd').textContent=A.twd!=null?A.twd.toFixed(0)+'°':'–';$('dShift').textContent=A.shift!=null?`rolada ${sh>0?'+':''}${sh}° frente a la media de 5 min`:'';
- const vmg=stw*Math.cos(twa*D2R);$('dVmg').textContent=fx(Math.abs(vmg));$('dVmgT').textContent=A.vmgT!=null?`óptimo ${A.vmgT.toFixed(1)} kn a ${A.ang.toFixed(0)}°`:'tramo de través';
- if(A.r){const lado=MARKS[active].lado;$('dDist').textContent=A.r.d.toFixed(2);$('dBrg').textContent=`mn · ${A.r.b.toFixed(0)}° · ${MARKS[active].n}${lado?' · dejar por '+lado:''}`}else{$('dDist').textContent='–';$('dBrg').textContent=MARKS[active]?MARKS[active].n+' sin posición':''}
  $('legPill').textContent={up:'Ceñida',down:'Popa',reach:'Través'}[A.leg]||'—';
  $('sNow').textContent=sailFor(twa,tws);
  const nx=MARKS[active+1];
- if(nx&&nx.p&&MARKS[active].p){const lb=rel(MARKS[active].p,nx.p).b, ntwa=Math.abs(sgn(lb-A.twd)), lt=legType(A.twd,lb), na=lt==='up'?beatA(tws):lt==='down'?gybeA(tws):ntwa;
-  $('sNextL').textContent=`Tras ${MARKS[active].n}`;$('sNext').textContent=sailFor(na,tws);$('sNote').textContent=`Tramo a ${nx.n}: rumbo ${lb.toFixed(0)}°, TWA previsto ${na.toFixed(0)}° (${{up:'ceñida',down:'popa',reach:'través'}[lt]}).`}
- else{$('sNext').textContent='Llegada';$('sNote').textContent=''}
- $('dCur').textContent=S.cur>0.1?`${S.cur.toFixed(1)} kn hacia ${S.curDir.toFixed(0)}°`:'sin corriente apreciable';
- draw();lineInfo();
+ if(nx&&nx.p&&MARKS[active]&&MARKS[active].p&&A.twd!=null){const lb=rel(MARKS[active].p,nx.p).b, ntwa=Math.abs(sgn(lb-A.twd)), lt=legType(A.twd,lb), na=lt==='up'?beatA(tws):lt==='down'?gybeA(tws):ntwa;
+  $('sNextL').textContent=`Tras ${MARKS[active].n}`;$('sNext').textContent=sailFor(na,tws);$('sNote').textContent=`${{up:'ceñida',down:'popa',reach:'través'}[lt]} a ${lb.toFixed(0)}°, TWA ${na.toFixed(0)}°`}
+ else{$('sNextL').textContent='Siguiente';$('sNext').textContent='Llegada';$('sNote').textContent=''}
+ FLEET=fleet();updateTiles();fleetMini();draw();lineInfo();
 }
+/* ---------- Casillas de datos configurables ---------- */
+const RAW={};
+const rawN=(t,i)=>{const r=RAW[t];if(!r||Date.now()-r.t>15000)return null;const v=parseFloat(r.f[i]);return isFinite(v)?v:null};
+const ago=t=>t==null?'':`${Math.round(t)} s`;
+const TL={
+ bsp:{n:'Velocidad',v:()=>fx(F.stw),s:()=>`objetivo ${fx(polar(F.tws,S.twa))} kn`},
+ pct:{n:'% de polar',v:()=>{const p=F.stw/polar(F.tws,S.twa)*100;return isFinite(p)?p.toFixed(0)+'%':'–'},s:()=>{const p=F.stw/polar(F.tws,S.twa)*100;return p<92?'Por debajo: trimado o ángulo':p>104?'Por encima de la polar':'En polar'}},
+ tws:{n:'Viento real',v:()=>fx(F.tws),s:()=>`TWA <span class="${S.twa>=0?'est-t':'bab-t'}">${Math.abs(S.twa).toFixed(0)}° ${S.twa>=0?'Er':'Br'}</span>`},
+ twd:{n:'Dirección viento',v:()=>A.twd!=null?A.twd.toFixed(0)+'°':'–',s:()=>{const sh=Math.round(A.shift||0)||0;return`rolada ${sh>0?'+':''}${sh}° (media 5 min)`}},
+ twa:{n:'TWA',v:()=>`${Math.abs(S.twa).toFixed(0)}°`,s:()=>S.twa>=0?'amura de estribor':'amura de babor'},
+ aws:{n:'Viento aparente',v:()=>fx(S.aws),s:()=>`AWA ${Math.abs(S.awa||0).toFixed(0)}° ${S.awa>=0?'Er':'Br'}`},
+ awa:{n:'AWA',v:()=>`${Math.abs(S.awa||0).toFixed(0)}°`,s:()=>S.awa>=0?'estribor':'babor'},
+ vmg:{n:'VMG / óptimo',v:()=>fx(Math.abs(F.stw*Math.cos(S.twa*D2R))),s:()=>A.vmgT!=null?`óptimo ${A.vmgT.toFixed(1)} kn a ${A.ang.toFixed(0)}°`:'tramo de través'},
+ mark:{n:'Baliza',v:()=>A.r?A.r.d.toFixed(2):'–',s:()=>{const m=MARKS[active];return A.r?`mn · ${A.r.b.toFixed(0)}° · ${esc(m.n)}${m.lado?' · por '+m.lado:''}`:(m?esc(m.n)+' sin posición':'')}},
+ lay:{n:'Layline',v:()=>A.lay&&A.lay.aCur>0?A.lay.aCur.toFixed(2):'–',s:()=>A.lay&&A.lay.aCur>0&&F.stw>0.5?`mn · ${fmtT(A.lay.aCur*NM/(F.stw*0.5144))} a esta velocidad`:'mn'},
+ hdg:{n:'Proa',v:()=>S.hdg!=null?S.hdg.toFixed(0)+'°':'–',s:()=>'verdadera'},
+ sog:{n:'Velocidad fondo',v:()=>fx(S.sog),s:()=>S.cog!=null?`COG ${S.cog.toFixed(0)}°`:''},
+ cog:{n:'Rumbo fondo',v:()=>S.cog!=null?S.cog.toFixed(0)+'°':'–',s:()=>'COG'},
+ depth:{n:'Profundidad',v:()=>{const d=rawN('DPT',1);return d==null?'–':(d+(rawN('DPT',2)||0)).toFixed(1)},s:()=>'m'},
+ rudder:{n:'Timón',v:()=>{const r=rawN('RSA',1);return r==null?'–':`${Math.abs(r).toFixed(0)}° ${r>=0?'Er':'Br'}`},s:()=>'ángulo de pala'},
+ rot:{n:'Velocidad de giro',v:()=>{const r=rawN('ROT',1);return r==null?'–':r.toFixed(0)},s:()=>'°/min'},
+ log:{n:'Corredera total',v:()=>{const r=rawN('VLW',1);return r==null?'–':r.toFixed(1)},s:()=>{const t=rawN('VLW',3);return t!=null?`mn · viaje ${t.toFixed(1)}`:'mn'}},
+ wtemp:{n:'Temperatura agua',v:()=>{const r=rawN('MTW',1);return r==null?'–':r.toFixed(1)},s:()=>'°C'},
+ gps:{n:'Hora GPS',v:()=>new Date(Date.now()+gpsOff).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'}),s:()=>haveGps?'del GPS del barco':'reloj del dispositivo'},
+ pos:{n:'Posición',v:()=>S.pos?fmtC(S.pos[0],1):'–',s:()=>S.pos?fmtC(S.pos[1],0):''},
+ race:{n:'Tiempo de regata',v:()=>T.end&&Date.now()>T.end?fmtT((Date.now()-T.end)/1000):'–',s:()=>T.end&&Date.now()<T.end?'aún no ha salido':'desde la salida'},
+ ahead:{n:'Barco delante',v:()=>FLEET.ahead[0]?gapTxt(FLEET.ahead[0]):'–',s:()=>FLEET.ahead[0]?esc(FLEET.ahead[0].name):'nadie por delante'},
+ behind:{n:'Barco detrás',v:()=>FLEET.behind[0]?gapTxt(FLEET.behind[0]):'–',s:()=>FLEET.behind[0]?esc(FLEET.behind[0].name):'nadie por detrás'},
+};
+let TILES=store.get('tiles',null)||['bsp','pct','tws','twd','vmg','mark'];
+const tileDef=k=>typeof k==='string'?TL[k]:{n:k.n,v:()=>{const r=RAW[k.t];if(!r)return'–';const v=r.f[k.i];return v===''||v==null?'–':v},s:()=>`${esc(k.u||'')} · ${k.t} campo ${k.i}`};
+const tileKey=k=>typeof k==='string'?k:`nm:${k.t}:${k.i}`;
+function tileOptions(sel){const own=Object.keys(TL).map(k=>`<option value="${k}"${k===sel?' selected':''}>${TL[k].n}</option>`).join('');
+ const cus=TILES.filter(k=>typeof k!=='string').map(k=>`<option value="${tileKey(k)}"${tileKey(k)===sel?' selected':''}>${esc(k.n)} (NMEA)</option>`).join('');return own+cus}
+function renderTileDom(){const ed=$('v-regata').classList.contains('editing');
+ $('tiles').innerHTML=TILES.map((k,i)=>{const d=tileDef(k)||{n:'?'};return`<div class="t" data-i="${i}"><small>${esc(d.n)}</small><span class="v n">–</span><span class="s n"></span>
+  <span class="tools"><button data-mv="${i}" aria-label="Mover a la izquierda">◀</button><select data-ch="${i}">${tileOptions(tileKey(k))}</select><button data-rm="${i}" aria-label="Quitar">✕</button></span></div>`}).join('')+`<button class="addT" id="addT">+ Añadir dato</button>`;
+ updateTiles()}
+function updateTiles(){const box=$('tiles'), cells=box.querySelectorAll('.t'), n=TILES.length+($('v-regata').classList.contains('editing')?1:0), cols=getComputedStyle(box).gridTemplateColumns.split(' ').length||3, rows=Math.ceil(n/cols);
+ const h=box.clientHeight, tv=matchMedia('(orientation:portrait)').matches?40:Math.max(20,Math.min(120,(h/rows-6)-36));box.style.setProperty('--tv',tv+'px');
+ cells.forEach(c=>{const d=tileDef(TILES[+c.dataset.i]);if(!d)return;try{c.children[1].textContent=S.pos||!TL[TILES[+c.dataset.i]]?d.v():'–';c.children[2].innerHTML=S.pos?d.s():''}catch(e){c.children[1].textContent='–'}})}
+function saveTiles(){store.set('tiles',TILES);renderTileDom();changed()}
+$('editT').onclick=()=>{const v=$('v-regata');v.classList.toggle('editing');$('editT').textContent=v.classList.contains('editing')?'Listo':'Editar datos';renderTileDom()};
+$('tiles').onclick=e=>{const t=e.target;if(t.id==='addT'){TILES.push('depth');saveTiles();return}
+ if(t.dataset.rm!=null){TILES.splice(+t.dataset.rm,1);saveTiles()}else if(t.dataset.mv!=null){const i=+t.dataset.mv;if(i>0){[TILES[i-1],TILES[i]]=[TILES[i],TILES[i-1]];saveTiles()}}};
+$('tiles').onchange=e=>{const t=e.target;if(t.dataset.ch==null)return;const v=t.value;TILES[+t.dataset.ch]=v.startsWith('nm:')?TILES.find(k=>tileKey(k)===v):v;saveTiles()};
+new ResizeObserver(()=>updateTiles()).observe($('tiles'));
 const cv=$('map');
 function draw(){
  const W=cv.clientWidth,H=cv.clientHeight,dpr=devicePixelRatio||1;cv.width=W*dpr;cv.height=H*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);g.clearRect(0,0,W,H);
@@ -299,6 +360,10 @@ function draw(){
  g.beginPath();S.track.forEach((p,i)=>{const q=P(p);i?g.lineTo(...q):g.moveTo(...q)});g.strokeStyle=ink;g.globalAlpha=.35;g.lineWidth=2;g.stroke();g.globalAlpha=1;
  if(LINE.com&&LINE.pin)line(P(LINE.com),P(LINE.pin),'#f28c00',3);
  MARKS.forEach((m,i)=>{if(!m.p)return;const q=P(m.p);g.beginPath();g.arc(...q,i===active?9:5,0,7);g.fillStyle=i===active?'#f28c00':ink;g.globalAlpha=i===active?1:.4;g.fill();g.globalAlpha=1});
+ const now=Date.now();g.font='600 12px Barlow,system-ui,sans-serif';
+ for(const o of Object.values(AIS)){if(o.lat==null||now-o.t>180000)continue;const q=P([o.lat,o.lon]);if(q[0]<-20||q[1]<-20||q[0]>W+20||q[1]>H+20)continue;const rv=rivalFor(o);
+  g.save();g.translate(...q);g.rotate(((o.cog??up)-up)*D2R);g.beginPath();g.moveTo(0,-10);g.lineTo(6,7);g.lineTo(-6,7);g.closePath();g.fillStyle=rv?'#f28c00':'#7a8794';g.fill();g.restore();
+  g.fillStyle=ink;g.fillText((o.name||String(o.mmsi)).slice(0,14),q[0]+9,q[1]+4)}
  const b=P(S.pos),ha=(S.hdg-up)*D2R;g.save();g.translate(...b);g.rotate(ha);g.beginPath();g.moveTo(0,-16);g.lineTo(8,10);g.lineTo(-8,10);g.closePath();g.fillStyle=S.tack>0?'#139a52':'#d7263d';g.fill();g.restore();
  g.fillStyle=ink;g.font='600 14px Barlow,system-ui,sans-serif';g.fillText(`Viento ${A.twd.toFixed(0)}° ↓`,12,22);g.fillText(`${(span*2).toFixed(1)} mn de lado`,12,H-12);
  line([W-30,14],[W-30,44],ink,3);g.beginPath();g.moveTo(W-36,38);g.lineTo(W-30,46);g.lineTo(W-24,38);g.fill();
@@ -309,6 +374,7 @@ new ResizeObserver(draw).observe($('mapBox'));
 const sim={pos:dest(...START,140,0.1),hdg:0,tack:1,stw:0,t:0,slow:0,on:true,twdB:320,twsB:11};
 function simStep(dt){
  sim.t+=dt;const twd=norm(sim.twdB+8*Math.sin(sim.t/190)+4*Math.sin(sim.t/53)+(Math.random()-.5)*3), tws=Math.max(3,sim.twsB+2*Math.sin(sim.t/240)+(Math.random()-.5)*1.5);
+ simRivals(dt,twd,tws);
  const mk=(MARKS[active]&&MARKS[active].p)||START, r=rel(sim.pos,mk), lt=legType(twd,r.b);
  if($('obey').checked&&A.kind&&A.kind!=='hold'&&S.t-S.lastTack>20)sim.tack=A.kind==='est'?1:-1;
  let want;if(lt==='up')want=norm(twd-sim.tack*beatA(tws));else if(lt==='down')want=norm(twd-sim.tack*gybeA(tws));else{want=r.b;sim.tack=sgn(twd-r.b)>=0?1:-1}
@@ -325,24 +391,24 @@ $('bTack').onclick=()=>{sim.tack*=-1};$('bPause').onclick=e=>{sim.on=!sim.on;e.t
 $('simSpd').onchange=runSim;
 
 /* ---------- Reproducir NMEA 0183 ---------- */
-function parseNmea(txt){const fr=[],c={var:null};let lastT=null;
- for(const raw of txt.split(/\r?\n/)){const l=raw.trim();if(!l.startsWith('$'))continue;const f=l.split('*')[0].split(','),ty=f[0].slice(3);
+function parseNmea(txt){const fr=[],c={var:null};let lastT=null,pend=[];
+ for(const raw of txt.split(/\r?\n/)){const l=raw.trim();if(l.startsWith('!')||(l.startsWith('$')&&!/^\$..(MWV|VHW|HDG|RMC)/.test(l))){pend.push(l);if(l.startsWith('!'))continue}if(!l.startsWith('$'))continue;const f=l.split('*')[0].split(','),ty=f[0].slice(3);
   if(ty==='MWV'&&f[2]==='R'&&f[5]==='A'){c.awa=sgn(+f[1]);c.aws=+f[3]*(f[4]==='K'?0.54:f[4]==='M'?1.944:1)}
   else if(ty==='VHW'){c.stw=+f[5]||0;if(f[3])c.hdgM=+f[3]}
   else if(ty==='HDG'){c.hdgM=+f[1];if(f[4])c.var=+f[4]*(f[5]==='W'?-1:1)}
   else if(ty==='RMC'&&f[2]==='A'){const lat=(+f[3].slice(0,2)+ +f[3].slice(2)/60)*(f[4]==='S'?-1:1),lon=(+f[5].slice(0,3)+ +f[5].slice(3)/60)*(f[6]==='W'?-1:1);
-   const t=+f[1].slice(0,2)*3600+ +f[1].slice(2,4)*60+ +f[1].slice(4);if(t!==lastT&&c.awa!=null&&c.hdgM!=null){fr.push({...c,sog:+f[7]||0,cog:+f[8]||0,lat,lon,t});lastT=t}}}
+   const t=+f[1].slice(0,2)*3600+ +f[1].slice(2,4)*60+ +f[1].slice(4);if(t!==lastT&&c.awa!=null&&c.hdgM!=null){fr.push({...c,sog:+f[7]||0,cog:+f[8]||0,lat,lon,t,extra:pend});pend=[];lastT=t}}}
  return fr}
 $('srcFile').onclick=()=>$('fileIn').click();
-$('fileIn').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(lvOn)liveOff();const fr=parseNmea(await f.text());
+$('fileIn').onchange=async e=>{const f=e.target.files[0];if(!f)return;SIMR.forEach(r=>delete AIS[r.mmsi]);if(lvOn)liveOff();const fr=parseNmea(await f.text());
  if(fr.length<2){$('fileMsg').textContent='No he encontrado datos de viento, proa y GPS en ese archivo.';return}
  clearInterval(timer);$('simCtl').style.display='none';$('srcLbl').textContent='Grabación: '+f.name;$('srcSim').classList.remove('on');$('srcFile').classList.add('on');
  $('fileMsg').textContent=`${fr.length} segundos de datos cargados. Reproduciendo a ×5.`;Object.assign(F,{twdS:null,twdL:null,tws:null,stw:null});S.track=[];
- let i=0;timer=setInterval(()=>{for(let k=0;k<5&&i<fr.length;k++,i++){const p=fr[i-1];ingest({...fr[i],dt:p?Math.max(0.2,fr[i].t-p.t):1})}if(i>=fr.length){clearInterval(timer);$('fileMsg').textContent+=' Fin de la grabación.'}},1000)};
+ let i=0;timer=setInterval(()=>{for(let k=0;k<5&&i<fr.length;k++,i++){const p=fr[i-1];for(const l of fr[i].extra||[]){if(l[0]==='!')aisLine(l);else{const f=l.split('*')[0].split(',');RAW[f[0].slice(3)]={f,t:Date.now(),raw:l}}}ingest({...fr[i],dt:p?Math.max(0.2,fr[i].t-p.t):1})}if(i>=fr.length){clearInterval(timer);$('fileMsg').textContent+=' Fin de la grabación.'}},1000)};
 $('srcSim').onclick=()=>{if(lvOn)liveOff();sim.on=true;$('bPause').textContent='Pausa';$('simCtl').style.display='';$('srcLbl').textContent='Simulador';$('srcSim').classList.add('on');$('srcFile').classList.remove('on');S.track=[];runSim()};
 
 /* ---------- Pestañas, tablas y formularios ---------- */
-document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));draw()});
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));draw();updateTiles();if(b.dataset.v==='flota'){renderOrc();fleetMini()}if(b.dataset.v==='datos')renderNmea()});
 $('polTab').innerHTML=`<thead><tr><th>TWA \\ TWS</th>${TWS.map(w=>`<th>${w}</th>`).join('')}</tr></thead><tbody>
 <tr><td>Ángulo ceñida</td>${BEAT_A.map(v=>`<td>${v}°</td>`).join('')}</tr><tr><td>VMG ceñida</td>${BEAT_V.map(v=>`<td>${v.toFixed(2)}</td>`).join('')}</tr>
 ${Object.keys(ROWS).map(a=>`<tr><td>${a}°</td>${ROWS[a].map(v=>`<td>${v.toFixed(2)}</td>`).join('')}</tr>`).join('')}
@@ -446,7 +512,7 @@ const DEV=store.get('dev',null)||Math.random().toString(36).slice(2,10);store.se
 const LIVE={c:{},lastT:null,lastDate:null,buf:''};
 function feedNmea(text){
  LIVE.buf+=text;const lines=LIVE.buf.split('\n');LIVE.buf=lines.pop();const c=LIVE.c;
- for(const raw of lines){const l=raw.trim();if(!l.startsWith('$'))continue;const f=l.split('*')[0].split(','),ty=f[0].slice(3);
+ for(const raw of lines){const l=raw.trim();if(l.startsWith('!')){aisLine(l);continue}if(!l.startsWith('$'))continue;const f=l.split('*')[0].split(','),ty=f[0].slice(3);RAW[ty]={f,t:Date.now(),raw:l};
   if(ty==='MWV'&&f[2]==='R'&&f[5]==='A'){c.awa=sgn(+f[1]);c.aws=+f[3]*(f[4]==='K'?0.54:f[4]==='M'?1.944:1)}
   else if(ty==='VHW'){c.stw=+f[5]||0;if(f[3])c.hdgM=+f[3]}
   else if(ty==='HDG'){c.hdgM=+f[1];if(f[4])c.var=+f[4]*(f[5]==='W'?-1:1)}
@@ -462,23 +528,24 @@ function feedNmea(text){
 let lvOn=false, liveSeen=0, fallback=false;
 const resetNav=()=>{Object.assign(F,{twdS:null,twdL:null,tws:null,stw:null});S.track=[];S.pos=null;LIVE.lastT=null};
 function startFallback(){fallback=true;resetNav();sim.on=true;$('simCtl').style.display='';$('srcLbl').textContent='SIMULACIÓN · sin datos del barco';$('srcLbl').classList.add('simu');runSim()}
-function stopFallback(){fallback=false;clearInterval(timer);sim.on=false;$('simCtl').style.display='none';$('srcLbl').textContent='W2K-1 en directo';$('srcLbl').classList.remove('simu');resetNav()}
+function stopFallback(){fallback=false;SIMR.forEach(r=>delete AIS[r.mmsi]);clearInterval(timer);sim.on=false;$('simCtl').style.display='none';$('srcLbl').textContent='W2K-1 en directo';$('srcLbl').classList.remove('simu');resetNav()}
 setInterval(()=>{if(NATIVE&&lvOn&&!fallback&&Date.now()-liveSeen>10000)startFallback()},2000);
 async function liveConnect(){
- if(!BN)return;fallback=false;liveSeen=Date.now();$('srcLbl').classList.remove('simu');clearInterval(timer);sim.on=false;$('simCtl').style.display='none';$('srcSim').classList.remove('on');$('srcFile').classList.remove('on');
+ if(!BN)return;SIMR.forEach(r=>delete AIS[r.mmsi]);fallback=false;liveSeen=Date.now();$('srcLbl').classList.remove('simu');clearInterval(timer);sim.on=false;$('simCtl').style.display='none';$('srcSim').classList.remove('on');$('srcFile').classList.remove('on');
  Object.assign(F,{twdS:null,twdL:null,tws:null,stw:null});S.track=[];LIVE.lastT=null;
  const cfg={host:$('lvHost').value.trim(),port:+$('lvPort').value,protocol:$('lvProto').value};store.set('live',cfg);
  $('srcLbl').textContent='W2K-1 en directo';lvOn=true;$('lvBtn').textContent='Desconectar';await BN.connect(cfg)}
 async function liveOff(){if(!BN)return;lvOn=false;fallback=false;$('srcLbl').classList.remove('simu');$('lvBtn').textContent='Conectar';await BN.disconnect()}
 /* Estado compartido: gana el cambio más reciente (con hora GPS) */
 let REV=store.get('rev',0);const PEERS={};
-function snapshot(){return{rev:REV,marks:MARKS,line:LINE,active,sails:SAILS,tEnd:T.end?T.end+gpsOff:null,set:{cTack:$('cTack').value,cGybe:$('cGybe').value,cShift:$('cShift').value,cVar:$('cVar').value}}}
+function snapshot(){return{rev:REV,marks:MARKS,line:LINE,active,sails:SAILS,tiles:TILES,rivals:RIVALS,orcSet:ORCS,orcOwn:OWN,tEnd:T.end?T.end+gpsOff:null,set:{cTack:$('cTack').value,cGybe:$('cGybe').value,cShift:$('cShift').value,cVar:$('cVar').value}}}
 function send(){if(BN)BN.syncSend({msg:JSON.stringify({id:DEV,st:snapshot()})}).catch(()=>{})}
 function changed(){REV=Date.now()+gpsOff;store.set('rev',REV);store.set('marks',MARKS);store.set('line',LINE);send()}
 function applyRemote(st){
  REV=st.rev;store.set('rev',REV);MARKS=st.marks||MARKS;LINE=st.line||LINE;SAILS=st.sails||SAILS;active=Math.min(st.active||0,MARKS.length-1);
  store.set('marks',MARKS);store.set('line',LINE);store.set('sails',SAILS);
  if(st.set)for(const k in st.set)if($(k))$(k).value=st.set[k];
+ if(st.tiles){TILES=st.tiles;store.set('tiles',TILES);renderTileDom()}if(st.rivals){RIVALS=st.rivals;store.set('rivals',RIVALS)}if(st.orcSet){ORCS=st.orcSet;store.set('orcSet',ORCS)}if(st.orcOwn){Object.assign(OWN,st.orcOwn);store.set('orcOwn',OWN)}renderOrc();
  if(st.tEnd){const e=st.tEnd-gpsOff;if(!T.end||Math.abs(T.end-e)>400){T.end=e;T.last=null;clearInterval(T.tick);T.tick=setInterval(tTick,200);tTick()}}else if(T.end)tStopLocal();
  fillMarks();fillSails();lineInfo();
 }
@@ -492,13 +559,94 @@ if(NATIVE){
  BN.addListener('sync',e=>{try{const m=JSON.parse(e.msg);if(m.id===DEV)return;PEERS[m.id]=Date.now();if(m.st&&m.st.rev>REV)applyRemote(m.st);peersInfo()}catch(err){}});
  BN.syncStart({port:47474});setInterval(()=>{send();peersInfo()},4000);peersInfo();
  setTimeout(()=>{if(!sampleFn)$('siMsg').textContent='En la app no se pueden leer instrucciones: hazlo en la versión web y pasa el recorrido con «Copiar recorrido» (pestaña Datos).'},11000);
- liveConnect();
 }
 $('lvBtn').onclick=()=>{if(!NATIVE){$('lvMsg').textContent='Solo disponible en la app de Android.';return}lvOn?liveOff():liveConnect()};
 $('exBtn').onclick=async()=>{const code=btoa(unescape(encodeURIComponent(JSON.stringify({v:1,marks:MARKS,line:LINE}))));$('exTxt').value=code;
  try{await navigator.clipboard.writeText(code);$('exMsg').textContent='Copiado. Pégalo en el otro dispositivo.'}catch(e){$('exMsg').textContent='Selecciona el código de abajo y cópialo.'}};
 $('imBtn').onclick=()=>{try{const o=JSON.parse(decodeURIComponent(escape(atob($('exTxt').value.trim()))));if(!Array.isArray(o.marks))throw 0;MARKS=o.marks;if(o.line)LINE=o.line;active=Math.min(1,MARKS.length-1);fillMarks();changed();$('exMsg').textContent=`Recorrido importado: ${MARKS.length} balizas.`}catch(e){$('exMsg').textContent='Ese código no es válido.'}};
-fillSails();fillMarks();sim.hdg=norm(320-40);runSim();
+
+/* ---------- AIS ---------- */
+const AIS={};let ownMMSI=null;const aisParts={};
+function aisBits(pl){const b=[];for(const ch of pl){let v=ch.charCodeAt(0)-48;if(v>40)v-=8;for(let k=5;k>=0;k--)b.push((v>>k)&1)}return b}
+const uB=(b,s,l)=>{let v=0;for(let i=s;i<s+l&&i<b.length;i++)v=v*2+b[i];return v};
+const iB=(b,s,l)=>{let v=uB(b,s,l);if(b[s])v-=2**l;return v};
+const tB=(b,s,l)=>{let t='';for(let i=s;i+6<=s+l&&i+6<=b.length;i+=6){let c=uB(b,i,6);t+=String.fromCharCode(c<32?c+64:c)}return t.replace(/@+$/,'').trim()};
+function aisLine(l){const f=l.split('*')[0].split(',');if(f.length<7)return;const tot=+f[1],num=+f[2],id=f[3];let pl=f[5];
+ if(tot>1){const k=id+f[4];(aisParts[k]=aisParts[k]||[])[num-1]=pl;if(aisParts[k].filter(Boolean).length<tot)return;pl=aisParts[k].join('');delete aisParts[k]}
+ const b=aisBits(pl),ty=uB(b,0,6),mmsi=uB(b,8,30),own=f[0].endsWith('VDO');if(own){ownMMSI=mmsi;return}if(mmsi===ownMMSI)return;
+ if(![1,2,3,5,18,19,24].includes(ty))return;const o=AIS[mmsi]=AIS[mmsi]||{mmsi,name:''};
+ const pos=(lonS,latS,sogS,cogS)=>{const lon=iB(b,lonS,28)/600000,lat=iB(b,latS,27)/600000;if(Math.abs(lat)<=90&&Math.abs(lon)<=180){o.lat=lat;o.lon=lon;o.t=Date.now()}const sg=uB(b,sogS,10);o.sog=sg<1023?sg/10:null;const cg=uB(b,cogS,12);o.cog=cg<3600?cg/10:null};
+ if(ty>=1&&ty<=3)pos(61,89,50,116);
+ else if(ty===18)pos(57,85,46,112);
+ else if(ty===19){pos(57,85,46,112);o.name=tB(b,143,120)||o.name}
+ else if(ty===5)o.name=tB(b,112,120)||o.name;
+ else if(ty===24&&uB(b,38,2)===0)o.name=tB(b,40,120)||o.name;
+}
+/* Ranking respecto a la baliza activa */
+let FLEET={ahead:[],behind:[]};
+function dtg(p){const mk=MARKS[active];if(!mk||!mk.p||A.twd==null)return null;const r=rel(p,mk.p);
+ if(A.leg==='up')return r.d*Math.cos(sgn(r.b-A.twd)*D2R);if(A.leg==='down')return r.d*Math.cos(sgn(r.b-A.twd-180)*D2R);return r.d}
+function fleet(){const out={ahead:[],behind:[]};if(!S.pos)return out;const me=dtg(S.pos);if(me==null)return out;
+ const v=(A.leg==='reach'?polar(F.tws||8,A.ang||90):Math.abs(A.vmgT||5))*0.5144;const now=Date.now();
+ for(const o of Object.values(AIS)){if(o.lat==null||now-o.t>180000)continue;const r=rel(S.pos,[o.lat,o.lon]);if(r.d>6)continue;const d=dtg([o.lat,o.lon]);if(d==null)continue;
+  const dm=(d-me)*NM, gap=dm/v, rv=rivalFor(o);const e={name:o.name||('MMSI '+o.mmsi),mmsi:o.mmsi,dm,gap,dist:r.d,brg:r.b,sog:o.sog,rv,corr:rv?gap-giveSecs(rv):null};
+  (dm<0?out.ahead:out.behind).push(e)}
+ out.ahead.sort((a,b)=>b.dm-a.dm);out.behind.sort((a,b)=>a.dm-b.dm);return out}
+const gapTxt=e=>`${Math.abs(e.dm)<1000?Math.abs(e.dm).toFixed(0)+' m':(Math.abs(e.dm)/NM).toFixed(2)+' mn'}`;
+const corrTxt=e=>e.corr==null?'':e.corr>0?` · compensado: le ganamos ${fmtT(e.corr)}`:` · compensado: nos gana ${fmtT(-e.corr)}`;
+function fleetLi(e){return`<li><b>${esc(e.name)}</b> ${gapTxt(e)} · ${fmtT(Math.abs(e.gap))}${corrTxt(e)}<small>a ${e.dist.toFixed(2)} mn, ${e.brg.toFixed(0)}° · ${e.sog!=null?e.sog.toFixed(1)+' kn':''}${e.rv?'':' · sin rating ORC'}</small></li>`}
+function fleetMini(){const a=FLEET.ahead[0],b=FLEET.behind[0];$('fleetMini').innerHTML=(a?`<span>▲ ${esc(a.name)}: ${gapTxt(a)} · ${fmtT(-a.gap)}${corrTxt(a)}</span>`:'')+(b?`<span>▼ ${esc(b.name)}: ${gapTxt(b)} · ${fmtT(b.gap)}${corrTxt(b)}</span>`:'');
+ if($('v-flota').classList.contains('on')){$('fAhead').innerHTML=FLEET.ahead.map(fleetLi).join('')||'<li class="note">Nadie por delante</li>';$('fBehind').innerHTML=FLEET.behind.map(fleetLi).join('')||'<li class="note">Nadie por detrás</li>'}}
+
+/* ---------- Rivales simulados (solo con el simulador) ---------- */
+const SIMR=[{n:'RIVAL BRAVO',f:1.03},{n:'RIVAL CHARLIE',f:0.98},{n:'RIVAL DELTA',f:0.95},{n:'RIVAL ECHO',f:1.0}].map((r,i)=>({...r,mmsi:224000100+i,pos:dest(...START,100+i*50,0.12+i*0.04),hdg:280,tack:i%2?1:-1,next:200+i*90}));
+function simRivals(dt,twd,tws){for(const r of SIMR){r.next-=dt;const mk=(MARKS[active]&&MARKS[active].p)||START, rr=rel(r.pos,mk), lt=legType(twd,rr.b);
+ if(r.next<=0){r.tack*=-1;r.next=150+Math.random()*250}
+ const want=lt==='up'?norm(twd-r.tack*beatA(tws)):lt==='down'?norm(twd-r.tack*gybeA(tws)):rr.b;r.hdg=want;
+ const v=polar(tws,sgn(twd-r.hdg))*r.f;r.pos=dest(...r.pos,r.hdg,v*dt/3600);
+ AIS[r.mmsi]={mmsi:r.mmsi,name:r.n,lat:r.pos[0],lon:r.pos[1],sog:v,cog:r.hdg,t:Date.now()}}}
+
+/* ---------- ORC ---------- */
+const OWN=store.get('orcOwn',null)||{AP:{tod:501.5,tot:1.1964},WL:{tod:623.6,tot:0.9622},CO:{tod:546.8,tot:null}};
+let RIVALS=store.get('rivals',[]);let ORCS=store.get('orcSet',{opt:'AP',sys:'ToT',dist:null,hrs:null});
+const courseNM=()=>{let d=0;for(let i=1;i<MARKS.length;i++)if(MARKS[i].p&&MARKS[i-1].p)d+=rel(MARKS[i-1].p,MARKS[i].p).d;return d};
+const oDist=()=>ORCS.dist||+courseNM().toFixed(1)||5, oHrs=()=>ORCS.hrs||+(oDist()/5.5).toFixed(1);
+function giveSecs(rv){const o=OWN[ORCS.opt]||{},r=rv[ORCS.opt]||{};
+ if(ORCS.sys==='ToD'){if(!o.tod||!r.tod)return 0;return(r.tod-o.tod)*oDist()}
+ if(!o.tot||!r.tot)return 0;return oHrs()*3600*(o.tot/r.tot-1)}
+const normN=t=>String(t||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+function rivalFor(o){return RIVALS.find(r=>(r.mmsi&&+r.mmsi===o.mmsi)||(r.name&&o.name&&normN(r.name)===normN(o.name)))||null}
+function renderOrc(){$('oOpt').value=ORCS.opt;$('oSys').value=ORCS.sys;$('oDist').placeholder=oDist();$('oHrs').placeholder=oHrs();$('oDist').value=ORCS.dist||'';$('oHrs').value=ORCS.hrs||'';
+ $('oNote').textContent=ORCS.sys==='ToD'?`Sobre ${oDist()} mn${ORCS.dist?'':' (longitud del recorrido cargado)'}.`:`Sobre ${oHrs()} h de regata${ORCS.hrs?'':' (estimado a 5,5 kn)'}.`;
+ const aisOpts=v=>'<option value="">—</option>'+Object.values(AIS).filter(o=>o.name||o.lat!=null).map(o=>`<option value="${o.mmsi}"${+v===o.mmsi?' selected':''}>${esc(o.name||o.mmsi)}</option>`).join('');
+ $('oBody').innerHTML=RIVALS.map((r,i)=>{const x=r[ORCS.opt]||{},g=giveSecs(r);return`<tr><td><input data-r="${i}" data-k="name" value="${esc(r.name)}"></td><td><input data-r="${i}" data-k="sail" value="${esc(r.sail||'')}" style="width:100px"></td><td><select data-r="${i}" data-k="mmsi">${aisOpts(r.mmsi)}</select></td>
+  <td><input type="number" step="0.1" data-r="${i}" data-k="tod" value="${x.tod??''}" style="width:90px"></td><td><input type="number" step="0.0001" data-r="${i}" data-k="tot" value="${x.tot??''}" style="width:100px"></td>
+  <td>${(ORCS.sys==='ToD'?x.tod:x.tot)?(g>0?`<b>Le damos ${fmtT(g)}</b>`:g<0?`<b>Nos da ${fmtT(-g)}</b>`:'Igualados'):'<span class="note">falta rating</span>'}</td><td><button data-del="${i}">Quitar</button></td></tr>`}).join('')||'<tr><td colspan="7" class="note">Añade los rivales de tu clase.</td></tr>';
+ $('oOwn').innerHTML=[['AP','Todo terreno'],['WL','Barlovento/sotavento'],['CO','Costera']].map(([k,n])=>`<tr><td>${n}</td><td><input type="number" step="0.1" data-own="${k}" data-k="tod" value="${OWN[k].tod??''}" style="width:90px"></td><td><input type="number" step="0.0001" data-own="${k}" data-k="tot" value="${OWN[k].tot??''}" style="width:100px"></td></tr>`).join('')}
+function orcSave(){store.set('rivals',RIVALS);store.set('orcSet',ORCS);store.set('orcOwn',OWN);changed()}
+['oOpt','oSys','oDist','oHrs'].forEach(id=>$(id).onchange=()=>{ORCS={opt:$('oOpt').value,sys:$('oSys').value,dist:+$('oDist').value||null,hrs:+$('oHrs').value||null};orcSave();renderOrc()});
+$('oBody').onchange=e=>{const t=e.target,i=t.dataset.r;if(i==null)return;const r=RIVALS[+i],k=t.dataset.k;if(k==='tod'||k==='tot'){r[ORCS.opt]=r[ORCS.opt]||{};r[ORCS.opt][k]=+t.value||null}else r[k]=k==='mmsi'?(+t.value||null):t.value;orcSave();renderOrc()};
+$('oBody').onclick=e=>{const i=e.target.dataset.del;if(i==null)return;RIVALS.splice(+i,1);orcSave();renderOrc()};
+$('oOwn').onchange=e=>{const t=e.target;OWN[t.dataset.own][t.dataset.k]=+t.value||null;orcSave();renderOrc()};
+$('oAdd').onclick=()=>{RIVALS.push({name:$('oQ').value||'Rival',sail:'',mmsi:null});orcSave();renderOrc()};
+function deepGet(o,names){const want=names.map(n=>n.toLowerCase());let hit=null;(function walk(x){if(hit!=null||!x||typeof x!=='object')return;for(const k in x){if(want.includes(k.toLowerCase())&&(typeof x[k]!=='object'||x[k]===null)){hit=x[k];return}walk(x[k])}})(o);return hit}
+$('oFind').onclick=async()=>{const q=$('oQ').value.trim();if(!q)return;$('oMsg').innerHTML='<span class="spin"></span> Buscando en ORC…';
+ const isSail=/\d/.test(q), u=`https://data.orc.org/public/WPub.dll?action=DownBoatRMS&CountryId=ESP&ext=json&${isSail?'SailNo':'YachtName'}=${encodeURIComponent(isSail?'%'+q.replace(/^ESP-?/i,'')+'%':q)}`;
+ try{const res=await fetch(u);const j=await res.json();const b=(j.rms||[])[0];if(!b){$('oMsg').textContent='No está en la base pública del ORC (los certificados de club a veces no aparecen). Añádelo a mano con los datos de su certificado.';return}
+  const n=v=>v==null||v===''?null:+v;
+  const r={name:deepGet(b,['YachtName'])||q,sail:deepGet(b,['SailNo'])||'',mmsi:null,
+   AP:{tod:n(deepGet(b,['APHD'])),tot:n(deepGet(b,['APHT']))},WL:{tod:n(deepGet(b,['ILCWA','WL_ToD'])),tot:n(deepGet(b,['TMF_Inshore']))},CO:{tod:n(deepGet(b,['OSN'])),tot:n(deepGet(b,['TMF_Offshore']))}};
+  RIVALS.push(r);orcSave();renderOrc();$('oMsg').textContent=`Añadido ${r.name}${r.AP.tod?'':' (revisa los ratings: no he encontrado todos los campos)'}.`}
+ catch(err){$('oMsg').textContent=NATIVE?'Sin conexión con el ORC. Prueba con Internet.':'La búsqueda en el ORC solo funciona en la app de Android. Aquí, añádelo a mano.'}};
+
+/* ---------- Inspector de frases NMEA ---------- */
+let nmSel=null;
+function renderNmea(){const ks=Object.keys(RAW).sort();if(!ks.length)return;
+ $('nmeaList').innerHTML=ks.map(k=>`<div class="found"><b>${k}</b> <span class="note">${esc(RAW[k].raw.slice(0,80))}</span><div class="chips">${RAW[k].f.slice(1).map((v,i)=>v===''?'':`<button data-t="${k}" data-i="${i+1}">${i+1}: ${esc(v)}</button>`).join('')}</div></div>`).join('')}
+$('nmeaList').onclick=e=>{const t=e.target.dataset.t;if(!t)return;nmSel={t,i:+e.target.dataset.i};$('nmSel').textContent=`${t} campo ${nmSel.i}`;$('nmName').value=`${t} ${nmSel.i}`;$('nmAddRow').hidden=false};
+$('nmAdd').onclick=()=>{if(!nmSel)return;TILES.push({k:'nm',t:nmSel.t,i:nmSel.i,n:$('nmName').value||nmSel.t,u:$('nmUnit').value});saveTiles();$('nmAddRow').hidden=true;document.querySelector('[data-v=regata]').click()};
+setInterval(()=>{if($('v-datos').classList.contains('on'))renderNmea();if($('v-flota').classList.contains('on')&&!document.activeElement.closest('#v-flota table'))renderOrc()},2000);
+fillSails();fillMarks();renderTileDom();renderOrc();sim.hdg=norm(320-40);runSim();if(NATIVE)liveConnect();
 }
 </script>
 </body>
