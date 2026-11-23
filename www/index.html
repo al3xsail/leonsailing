@@ -20,6 +20,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Barlow,system-
 header{display:flex;align-items:center;gap:10px;padding:10px max(3vw,12px);border-bottom:1px solid var(--line);flex-wrap:wrap}
 header h1{font:700 22px/1 "Barlow Condensed",sans-serif;margin:0}
 header .src{color:var(--mut);font-size:14px;margin-inline-start:auto}
+header .src.simu{color:#fff;background:var(--bab);padding:3px 10px;border-radius:99px;font-weight:600}
 nav{display:flex;gap:4px;padding:6px max(3vw,12px);overflow-x:auto;border-bottom:1px solid var(--line)}
 nav button{flex:none}
 button,select,input{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:0 14px}
@@ -452,15 +453,20 @@ function feedNmea(text){
    if(t===LIVE.lastT||c.awa==null||c.hdgM==null)continue;
    const lat=(+f[3].slice(0,2)+ +f[3].slice(2)/60)*(f[4]==='S'?-1:1),lon=(+f[5].slice(0,3)+ +f[5].slice(3)/60)*(f[6]==='W'?-1:1);
    let dt=LIVE.lastT==null?1:t-LIVE.lastT;if(dt<=0||dt>30)dt=1;LIVE.lastT=t;
+   if(fallback)stopFallback();liveSeen=Date.now();
    ingest({awa:c.awa,aws:c.aws,stw:c.stw||0,hdgM:c.hdgM,var:c.var,sog:+f[7]||0,cog:+f[8]||0,lat,lon,dt})}}
 }
-let lvOn=false;
+let lvOn=false, liveSeen=0, fallback=false;
+const resetNav=()=>{Object.assign(F,{twdS:null,twdL:null,tws:null,stw:null});S.track=[];S.pos=null;LIVE.lastT=null};
+function startFallback(){fallback=true;resetNav();sim.on=true;$('simCtl').style.display='';$('srcLbl').textContent='SIMULACIÓN · sin datos del barco';$('srcLbl').classList.add('simu');runSim()}
+function stopFallback(){fallback=false;clearInterval(timer);sim.on=false;$('simCtl').style.display='none';$('srcLbl').textContent='W2K-1 en directo';$('srcLbl').classList.remove('simu');resetNav()}
+setInterval(()=>{if(NATIVE&&lvOn&&!fallback&&Date.now()-liveSeen>10000)startFallback()},2000);
 async function liveConnect(){
- if(!BN)return;clearInterval(timer);sim.on=false;$('simCtl').style.display='none';$('srcSim').classList.remove('on');$('srcFile').classList.remove('on');
+ if(!BN)return;fallback=false;liveSeen=Date.now();$('srcLbl').classList.remove('simu');clearInterval(timer);sim.on=false;$('simCtl').style.display='none';$('srcSim').classList.remove('on');$('srcFile').classList.remove('on');
  Object.assign(F,{twdS:null,twdL:null,tws:null,stw:null});S.track=[];LIVE.lastT=null;
  const cfg={host:$('lvHost').value.trim(),port:+$('lvPort').value,protocol:$('lvProto').value};store.set('live',cfg);
  $('srcLbl').textContent='W2K-1 en directo';lvOn=true;$('lvBtn').textContent='Desconectar';await BN.connect(cfg)}
-async function liveOff(){if(!BN)return;lvOn=false;$('lvBtn').textContent='Conectar';await BN.disconnect()}
+async function liveOff(){if(!BN)return;lvOn=false;fallback=false;$('srcLbl').classList.remove('simu');$('lvBtn').textContent='Conectar';await BN.disconnect()}
 /* Estado compartido: gana el cambio más reciente (con hora GPS) */
 let REV=store.get('rev',0);const PEERS={};
 function snapshot(){return{rev:REV,marks:MARKS,line:LINE,active,sails:SAILS,tEnd:T.end?T.end+gpsOff:null,set:{cTack:$('cTack').value,cGybe:$('cGybe').value,cShift:$('cShift').value,cVar:$('cVar').value}}}
