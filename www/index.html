@@ -606,7 +606,7 @@ function dtg(p){const mk=MARKS[active];if(!mk||!mk.p||A.twd==null)return null;co
 function fleet(){const out={ahead:[],behind:[]};if(!S.pos)return out;const me=dtg(S.pos);if(me==null)return out;
  const v=(A.leg==='reach'?polar(F.tws||8,A.ang||90):Math.abs(A.vmgT||5))*0.5144;const now=Date.now();
  for(const o of Object.values(AIS)){if(o.lat==null||now-o.t>180000)continue;const r=rel(S.pos,[o.lat,o.lon]);if(r.d>6)continue;const d=dtg([o.lat,o.lon]);if(d==null)continue;
-  const dm=(d-me)*NM, gap=dm/v, rv=rivalFor(o);const e={name:o.name||('MMSI '+o.mmsi),mmsi:o.mmsi,dm,gap,dist:r.d,brg:r.b,sog:o.sog,rv,corr:rv?gap-giveSecs(rv):null};
+  const dm=(d-me)*NM, gap=dm/v, rv=rivalFor(o);const e={name:o.name||('MMSI '+o.mmsi),mmsi:o.mmsi,dm,gap,dist:r.d,brg:r.b,sog:o.sog,rv,corr:rv&&giveSecs(rv)!=null?gap-giveSecs(rv):null};
   (dm<0?out.ahead:out.behind).push(e)}
  out.ahead.sort((a,b)=>b.dm-a.dm);out.behind.sort((a,b)=>a.dm-b.dm);return out}
 const gapTxt=e=>`${Math.abs(e.dm)<1000?Math.abs(e.dm).toFixed(0)+' m':(Math.abs(e.dm)/NM).toFixed(2)+' mn'}`;
@@ -624,21 +624,34 @@ function simRivals(dt,twd,tws){for(const r of SIMR){r.next-=dt;const mk=(MARKS[a
  AIS[r.mmsi]={mmsi:r.mmsi,name:r.n,lat:r.pos[0],lon:r.pos[1],sog:v,cog:r.hdg,t:Date.now()}}}
 
 /* ---------- ORC ---------- */
-const OWN=store.get('orcOwn',null)||{AP:{tod:501.5,tot:1.1964},WL:{tod:623.6,tot:0.9622},CO:{tod:546.8,tot:null}};
+const OWN=store.get('orcOwn',null)||{AP:{tod:501.5,tot:1.1964},WL:{tod:623.6,tot:0.9622},CO:{tod:546.8,tot:1.0973}};if(OWN.CO&&OWN.CO.tot==null)OWN.CO.tot=1.0973;
 let RIVALS=store.get('rivals',[]);let ORCS=store.get('orcSet',{opt:'AP',sys:'ToT',dist:null,hrs:null});
 const courseNM=()=>{let d=0;for(let i=1;i<MARKS.length;i++)if(MARKS[i].p&&MARKS[i-1].p)d+=rel(MARKS[i-1].p,MARKS[i].p).d;return d};
-const oDist=()=>ORCS.dist||+courseNM().toFixed(1)||5, oHrs=()=>ORCS.hrs||+(oDist()/5.5).toFixed(1);
-function giveSecs(rv){const o=OWN[ORCS.opt]||{},r=rv[ORCS.opt]||{};
- if(ORCS.sys==='ToD'){if(!o.tod||!r.tod)return 0;return(r.tod-o.tod)*oDist()}
- if(!o.tot||!r.tot)return 0;return oHrs()*3600*(o.tot/r.tot-1)}
+const oDist=()=>ORCS.dist||+courseNM().toFixed(1)||5;
+/* Duración estimada con la polar del LEON y el viento actual (o 10 kn si aún no hay datos) */
+function estHrs(){const tws=F.tws>2?F.tws:10, twd=A.twd;let h=0;
+ for(let i=1;i<MARKS.length;i++){const a=MARKS[i-1].p,b=MARKS[i].p;if(!a||!b)continue;const r=rel(a,b);if(r.d<0.01)continue;
+  if(twd==null){h+=r.d/5.5;continue}
+  const lt=legType(twd,r.b), off=Math.abs(sgn(r.b-twd));
+  if(lt==='up')h+=r.d*Math.cos(off*D2R)/(polar(tws,beatA(tws))*Math.cos(beatA(tws)*D2R));   // tiempo = distancia sobre el eje del viento / VMG de ceñida
+  else if(lt==='down')h+=r.d*Math.cos((180-off)*D2R)/RUNVMG(tws);                          // ídem con el VMG de popa
+  else h+=r.d/polar(tws,off)}                                                                // través: velocidad de la polar a ese TWA
+ return h||oDist()/5.5}
+const RUNVMG=w=>polar(w,gybeA(w))*-Math.cos(gybeA(w)*D2R);
+const oHrs=()=>ORCS.hrs||+estHrs().toFixed(2);
+/* ORC: ToT = 600 / ToD; si solo hay uno de los dos, se deduce el otro */
+const rt=(x,sys)=>{if(!x)return null;if(sys==='ToD')return x.tod||(x.tot?600/x.tot:null);return x.tot||(x.tod?600/x.tod:null)};
+function giveSecs(rv){const o=OWN[ORCS.opt],r=rv[ORCS.opt],a=rt(o,ORCS.sys),b=rt(r,ORCS.sys);if(!a||!b)return null;
+ if(ORCS.sys==='ToD')return(b-a)*oDist();
+ return oHrs()*3600*(a/b-1)}
 const normN=t=>String(t||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
 function rivalFor(o){return RIVALS.find(r=>(r.mmsi&&+r.mmsi===o.mmsi)||(r.name&&o.name&&normN(r.name)===normN(o.name)))||null}
 function renderOrc(){$('oOpt').value=ORCS.opt;$('oSys').value=ORCS.sys;$('oDist').placeholder=oDist();$('oHrs').placeholder=oHrs();$('oDist').value=ORCS.dist||'';$('oHrs').value=ORCS.hrs||'';
- $('oNote').textContent=ORCS.sys==='ToD'?`Sobre ${oDist()} mn${ORCS.dist?'':' (longitud del recorrido cargado)'}.`:`Sobre ${oHrs()} h de regata${ORCS.hrs?'':' (estimado a 5,5 kn)'}.`;
+ $('oNote').textContent=ORCS.sys==='ToD'?`Sobre ${oDist()} mn${ORCS.dist?'':' (longitud del recorrido cargado)'}.`:`Sobre ${oHrs()} h de regata${ORCS.hrs?'':` (estimado con tu polar a ${(F.tws>2?F.tws:10).toFixed(0)} kn de viento)`}.`;
  const aisOpts=v=>'<option value="">—</option>'+Object.values(AIS).filter(o=>o.name||o.lat!=null).map(o=>`<option value="${o.mmsi}"${+v===o.mmsi?' selected':''}>${esc(o.name||o.mmsi)}</option>`).join('');
  $('oBody').innerHTML=RIVALS.map((r,i)=>{const x=r[ORCS.opt]||{},g=giveSecs(r);return`<tr><td><input data-r="${i}" data-k="name" value="${esc(r.name)}"></td><td><input data-r="${i}" data-k="sail" value="${esc(r.sail||'')}" style="width:100px"></td><td><select data-r="${i}" data-k="mmsi">${aisOpts(r.mmsi)}</select></td>
   <td><input type="number" step="0.1" data-r="${i}" data-k="tod" value="${x.tod??''}" style="width:90px"></td><td><input type="number" step="0.0001" data-r="${i}" data-k="tot" value="${x.tot??''}" style="width:100px"></td>
-  <td>${(ORCS.sys==='ToD'?x.tod:x.tot)?(g>0?`<b>Le damos ${fmtT(g)}</b>`:g<0?`<b>Nos da ${fmtT(-g)}</b>`:'Igualados'):'<span class="note">falta rating</span>'}</td><td><button data-del="${i}">Quitar</button></td></tr>`}).join('')||'<tr><td colspan="7" class="note">Añade los rivales de tu clase.</td></tr>';
+  <td>${g!=null?(Math.abs(g)<0.5?'Igualados':g>0?`<b>Le damos ${fmtT(g)}</b>`:`<b>Nos da ${fmtT(-g)}</b>`):'<span class="note">falta rating</span>'}</td><td><button data-del="${i}">Quitar</button></td></tr>`}).join('')||'<tr><td colspan="7" class="note">Añade los rivales de tu clase.</td></tr>';
  $('oOwn').innerHTML=[['AP','Todo terreno'],['WL','Barlovento/sotavento'],['CO','Costera']].map(([k,n])=>`<tr><td>${n}</td><td><input type="number" step="0.1" data-own="${k}" data-k="tod" value="${OWN[k].tod??''}" style="width:90px"></td><td><input type="number" step="0.0001" data-own="${k}" data-k="tot" value="${OWN[k].tot??''}" style="width:100px"></td></tr>`).join('')}
 function orcSave(){store.set('rivals',RIVALS);store.set('orcSet',ORCS);store.set('orcOwn',OWN);changed()}
 ['oOpt','oSys','oDist','oHrs'].forEach(id=>$(id).onchange=()=>{ORCS={opt:$('oOpt').value,sys:$('oSys').value,dist:+$('oDist').value||null,hrs:+$('oHrs').value||null};orcSave();renderOrc()});
