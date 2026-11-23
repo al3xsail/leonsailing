@@ -12,5 +12,9 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
         // Pantalla siempre encendida durante la regata
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // Ignorar el tamaño de letra del sistema: las cifras ya se ajustan solas a cada casilla
+        if (getBridge() != null && getBridge().getWebView() != null) {
+            getBridge().getWebView().getSettings().setTextZoom(100);
+        }
     }
 }

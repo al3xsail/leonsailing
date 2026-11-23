@@ -18,7 +18,7 @@
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Barlow,system-ui,sans-serif;overflow-x:clip}
 .n{font-family:"Barlow Condensed",Barlow,sans-serif;font-variant-numeric:tabular-nums}
-html,body{height:100%}body{display:flex;flex-direction:column;height:100dvh}
+html,body{height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}body{display:flex;flex-direction:column;height:100dvh}
 header{display:flex;align-items:center;gap:8px;padding:4px 10px;border-bottom:1px solid var(--line);flex:none;min-height:48px}
 header .logo{width:34px;height:34px;flex:none}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) header .logo{filter:invert(1)}}:root[data-theme=dark] header .logo{filter:invert(1)}
@@ -348,7 +348,16 @@ function renderTileDom(){const ed=$('v-regata').classList.contains('editing');
 function updateTiles(){const box=$('tiles'), cells=box.querySelectorAll('.t'), n=TILES.length+($('v-regata').classList.contains('editing')?1:0), cols=getComputedStyle(box).gridTemplateColumns.split(' ').length||3, rows=Math.ceil(n/cols);
  const h=box.clientHeight, cw=box.clientWidth/cols-20, tv=Math.min(matchMedia('(orientation:portrait)').matches?44:Math.max(20,Math.min(120,(h/rows-6)-36)),Math.max(20,cw*0.5));box.style.setProperty('--tv',tv+'px');
  cells.forEach(c=>{const d=tileDef(TILES[+c.dataset.i]);if(!d)return;const v=c.children[1];try{v.textContent=S.pos||!TL[TILES[+c.dataset.i]]?d.v():'–';c.children[2].innerHTML=S.pos?d.s():''}catch(e){v.textContent='–'}
-  v.style.fontSize='';if(v.scrollWidth>v.clientWidth+1)v.style.fontSize=Math.max(14,tv*v.clientWidth/v.scrollWidth*0.96)+'px'})}
+  fitV(c,v,tv)})}
+function fitV(c,v,tv){const lab=c.children[0],sub=c.children[2],cs=getComputedStyle(c);
+ const inner=c.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+ sub.style.display='';lab.style.fontSize='';
+ const room=()=>inner-lab.offsetHeight-(sub.style.display!=='none'&&sub.textContent?sub.offsetHeight:0)-2;
+ if(room()<inner*0.55)sub.style.display='none';
+ if(room()<inner*0.55)lab.style.fontSize='11px';
+ const availH=room();
+ let fs=Math.max(14,Math.min(tv,availH/1.08));v.style.fontSize=fs+'px';
+ if(v.scrollWidth>v.clientWidth+1){fs=Math.max(14,fs*v.clientWidth/v.scrollWidth*0.96);v.style.fontSize=fs+'px'}}
 function saveTiles(){store.set('tiles',TILES);renderTileDom();changed()}
 $('editT').onclick=()=>{const v=$('v-regata');v.classList.toggle('editing');$('editT').textContent=v.classList.contains('editing')?'Listo':'Editar datos';renderTileDom()};
 $('tiles').onclick=e=>{const t=e.target;if(t.id==='addT'){TILES.push('depth');saveTiles();return}
