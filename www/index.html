@@ -339,8 +339,9 @@ function renderTileDom(){const ed=$('v-regata').classList.contains('editing');
   <span class="tools"><button data-mv="${i}" aria-label="Mover a la izquierda">◀</button><select data-ch="${i}">${tileOptions(tileKey(k))}</select><button data-rm="${i}" aria-label="Quitar">✕</button></span></div>`}).join('')+`<button class="addT" id="addT">+ Añadir dato</button>`;
  updateTiles()}
 function updateTiles(){const box=$('tiles'), cells=box.querySelectorAll('.t'), n=TILES.length+($('v-regata').classList.contains('editing')?1:0), cols=getComputedStyle(box).gridTemplateColumns.split(' ').length||3, rows=Math.ceil(n/cols);
- const h=box.clientHeight, tv=matchMedia('(orientation:portrait)').matches?40:Math.max(20,Math.min(120,(h/rows-6)-36));box.style.setProperty('--tv',tv+'px');
- cells.forEach(c=>{const d=tileDef(TILES[+c.dataset.i]);if(!d)return;try{c.children[1].textContent=S.pos||!TL[TILES[+c.dataset.i]]?d.v():'–';c.children[2].innerHTML=S.pos?d.s():''}catch(e){c.children[1].textContent='–'}})}
+ const h=box.clientHeight, cw=box.clientWidth/cols-20, tv=Math.min(matchMedia('(orientation:portrait)').matches?44:Math.max(20,Math.min(120,(h/rows-6)-36)),Math.max(20,cw*0.5));box.style.setProperty('--tv',tv+'px');
+ cells.forEach(c=>{const d=tileDef(TILES[+c.dataset.i]);if(!d)return;const v=c.children[1];try{v.textContent=S.pos||!TL[TILES[+c.dataset.i]]?d.v():'–';c.children[2].innerHTML=S.pos?d.s():''}catch(e){v.textContent='–'}
+  v.style.fontSize='';if(v.scrollWidth>v.clientWidth+1)v.style.fontSize=Math.max(14,tv*v.clientWidth/v.scrollWidth*0.96)+'px'})}
 function saveTiles(){store.set('tiles',TILES);renderTileDom();changed()}
 $('editT').onclick=()=>{const v=$('v-regata');v.classList.toggle('editing');$('editT').textContent=v.classList.contains('editing')?'Listo':'Editar datos';renderTileDom()};
 $('tiles').onclick=e=>{const t=e.target;if(t.id==='addT'){TILES.push('depth');saveTiles();return}
